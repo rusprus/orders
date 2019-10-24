@@ -9,6 +9,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Order;
+use app\models\OrderItems;
+use app\models\Product;
 
 class SiteController extends Controller
 {
@@ -124,5 +127,32 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    // Котроллер для вывода заказов
+
+    public function actionOrders()
+    {
+        $orders = Order::find()->all();
+
+        return $this->render('orders', ['orders' => $orders]);
+    }
+
+    // Котроллер для вывода связующей таблицы
+
+    public function actionOrderItem()
+    {
+        $orderItems = OrderItems::find()->all();
+
+        return $this->render('order-item', ['orderItems' => $orderItems]);
+    }
+
+    // Котроллер для вывода продуктов
+
+    public function actionProducts()
+    {
+        $products = Product::find()->all();
+
+        return $this->render('products', ['products' => $products]);
     }
 }

@@ -37,7 +37,10 @@ class OrderItems extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
         ];
     }
-
+    public function getOrder()
+    {
+        return $this->hasOne(Items::className(), ['order_id'=>'id']);
+    }
     /**
      * {@inheritdoc}
      */

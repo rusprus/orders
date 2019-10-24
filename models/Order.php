@@ -2,7 +2,10 @@
 
 namespace app\models;
 
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 use Yii;
+
 
 /**
  * This is the model class for table "order".
@@ -10,13 +13,11 @@ use Yii;
  * @property int $id
  * @property string $created_at
  * @property string $updated_at
- * @property int $qty
  * @property double $sum
  * @property string $status
- * @property string $name
  * @property string $phone
  */
-class Order extends \yii\db\ActiveRecord
+class Order extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -26,18 +27,21 @@ class Order extends \yii\db\ActiveRecord
         return 'order';
     }
 
+    public function getOrderItems()
+    {
+        return $this->hasMany(OrderItems::className(), ['id'=>'order_id']);
+    }
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['created_at', 'updated_at', 'qty', 'sum', 'name', 'phone'], 'required'],
+            [[ 'phone'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['qty'], 'integer'],
             [['sum'], 'number'],
-            [['status'], 'string'],
-            [['name', 'phone'], 'string', 'max' => 255],
+            [['status'], 'boolean'],
+            [['phone'], 'string', 'max' => 255],
         ];
     }
 
@@ -50,10 +54,8 @@ class Order extends \yii\db\ActiveRecord
             'id' => 'ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'qty' => 'Qty',
             'sum' => 'Sum',
             'status' => 'Status',
-            'name' => 'Name',
             'phone' => 'Phone',
         ];
     }

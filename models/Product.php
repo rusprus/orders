@@ -2,16 +2,18 @@
 
 namespace app\models;
 
+use yii\db\ActiveRecord;
 use Yii;
 
 /**
  * This is the model class for table "product".
  *
- * @property int $id_prod
- * @property string $name_prod
- * @property int $count_prod
+ * @property int $id
+ * @property string $name
+ * @property string $content
+ * @property int $price
  */
-class Product extends \yii\db\ActiveRecord
+class Product extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -27,9 +29,10 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_prod', 'count_prod'], 'required'],
-            [['count_prod'], 'integer'],
-            [['name_prod'], 'string', 'max' => 255],
+            [['name'], 'required'],
+            [['price'], 'integer'],
+            [['name'], 'string', 'max' => 255],
+            [['content'], 'safe'],
         ];
     }
 
@@ -39,9 +42,15 @@ class Product extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_prod' => 'Id Prod',
-            'name_prod' => 'Name Prod',
-            'count_prod' => 'Count Prod',
+            'id' => 'Id',
+            'name' => 'Name',
+            'content' => 'Content',
+            'price' => 'Price',
         ];
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 }
